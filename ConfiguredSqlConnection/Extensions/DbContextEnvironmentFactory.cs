@@ -14,15 +14,15 @@ public class DbContextEnvironmentFactory : DbContextFactory
     public DbContextEnvironmentFactory(DbContextOptionsBuilderFactory<DataBaseContext> optionsBuilderFactory)
         : base(optionsBuilderFactory)
     {
-        dbMode = EnvManager.GetEnvironmentValue<string>("DB_MODE", true);
-        dbName = EnvManager.GetEnvironmentValue<string>("DB_NAME");
+        dbMode = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_DB_MODE", true);
+        dbName = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_DB_NAME");
     }
 
     public virtual DataBaseContext CreateFromEnvironment()
     {
         if (!Enum.TryParse(typeof(ContextOption), dbMode, true, out var optionObj) || !(optionObj is ContextOption option))
         {
-            throw new ArgumentException($"Invalid value for environment variable 'DB_MODE': {dbMode}");
+            throw new ArgumentException($"Invalid value for environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE': {dbMode}");
         }
 
         return Create(option, dbName);

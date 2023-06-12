@@ -41,8 +41,8 @@ public class FactoriesTests
     [Fact]
     public void CreateFromEnvironment()
     {
-        Environment.SetEnvironmentVariable("DB_MODE", $"{contextOption}");
-        Environment.SetEnvironmentVariable("DB_NAME", "");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"{contextOption}");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", "");
         var factory = new Mock<DbContextEnvironmentFactory>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
@@ -55,8 +55,8 @@ public class FactoriesTests
     [Fact]
     public void CreateFromEnvironment_OptionNotSet_ThrowException()
     {
-        Environment.SetEnvironmentVariable("DB_MODE", $"");
-        Environment.SetEnvironmentVariable("DB_NAME", $"");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
         var factory = new Mock<DbContextEnvironmentFactory>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
@@ -64,7 +64,7 @@ public class FactoriesTests
         Action testCode = () => factory.Object.CreateFromEnvironment();
 
         var exception = Assert.Throws<TargetInvocationException>(testCode);
-        var expectedExceptionMessage = $"Environment variable 'DB_MODE' is null or empty.";
+        var expectedExceptionMessage = $"Environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE' is null or empty.";
         Assert.Equal(expectedExceptionMessage, exception?.InnerException?.Message);
     }
 
@@ -72,8 +72,8 @@ public class FactoriesTests
     public void CreateFromEnvironment_InvaledOption_ThrowException()
     {
         var invalidOption = "Production";
-        Environment.SetEnvironmentVariable("DB_MODE", $"{invalidOption}");
-        Environment.SetEnvironmentVariable("DB_NAME", $"");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"{invalidOption}");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
         var factory = new Mock<DbContextEnvironmentFactory>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
@@ -81,7 +81,7 @@ public class FactoriesTests
         Action testCode = () => factory.Object.CreateFromEnvironment();
 
         var exception = Assert.Throws<ArgumentException>(testCode);
-        var expectedExceptionMessage = $"Invalid value for environment variable 'DB_MODE': {invalidOption}";
+        var expectedExceptionMessage = $"Invalid value for environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE': {invalidOption}";
         Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 
