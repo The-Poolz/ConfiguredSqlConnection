@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfiguredSqlConnection", "ConfiguredSqlConnection\ConfiguredSqlConnection.csproj", "{D8CA8350-16AE-40DA-B316-ADACBD816C9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfiguredSqlConnectionTests", "ConfiguredSqlConnectionTests\ConfiguredSqlConnectionTests.csproj", "{6B1E81C5-02C9-4080-9C87-312B515CEE4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8CA8350-16AE-40DA-B316-ADACBD816C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8CA8350-16AE-40DA-B316-ADACBD816C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8CA8350-16AE-40DA-B316-ADACBD816C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8CA8350-16AE-40DA-B316-ADACBD816C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B1E81C5-02C9-4080-9C87-312B515CEE4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B1E81C5-02C9-4080-9C87-312B515CEE4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B1E81C5-02C9-4080-9C87-312B515CEE4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B1E81C5-02C9-4080-9C87-312B515CEE4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64085DE7-947E-4E40-9DDB-E7EB572B21FE}
+	EndGlobalSection
+EndGlobal
