@@ -20,7 +20,7 @@ public class DbContextEnvironmentFactory : DbContextFactory
 
     public virtual DataBaseContext CreateFromEnvironment()
     {
-        if (!Enum.TryParse(typeof(ContextOption), dbMode, true, out var optionObj) || !(optionObj is ContextOption option))
+        if (!Enum.TryParse(typeof(ContextOption), dbMode, true, out var optionObj) || optionObj is not ContextOption option)
         {
             throw new ArgumentException($"Invalid value for environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE': {dbMode}");
         }
