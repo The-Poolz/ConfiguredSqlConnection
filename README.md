@@ -38,7 +38,7 @@ The `CreateFromEnvironment()` method retrieves the mode and database name from t
 - `CONFIGUREDSQLCONNECTION_DB_MODE`: environment variable should contain one of the following values: *"Prod"*, *"Staging"*, or *"InMemory"*, which determine the desired context option.
 - `CONFIGUREDSQLCONNECTION_DB_NAME`: environment variable can be used to specify the database name for the *"Staging"* or *"InMemory"* options.
 - `CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION`:  environment variable should contain the connection string for the *"Prod"* option.
-- `CONFIGUREDSQLCONNECTION_ACTION_CONNECTION`: some text
+- `CONFIGUREDSQLCONNECTION_ACTION_CONNECTION`: environment variable should contain the connection string. This is required for GitHub Actions to obtain the database connection string, enabling it to execute the migrations. Ensure that your connection string is correctly formatted and points to the appropriate database, as all migrations will be applied there.
 
 ## "appsettings.json" file
 Ensure that your `appsettings.json` file is located in the root folder of your project. This file should contain the necessary configuration settings, including the connection strings for different contexts.
