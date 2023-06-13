@@ -5,7 +5,25 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>5405e2de-7a05-4014-aea5-3ee845eb7fee</UserSecretsId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>ConfiguredSqlConnection</Title>
+    <Version>1.0.0</Version>
+    <Authors>Senia,ArdenHide,Lomet</Authors>
+    <Company>The Poolz</Company>
+    <PackageProjectUrl>https://github.com/The-Poolz/ConfiguredSqlConnection</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>https://github.com/The-Poolz/ConfiguredSqlConnection</RepositoryType>
+    <PackageTags>Database SQL EF</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>The NuGet package is a collection of utilities for working with SQL Server database connections using environment settings and secure connection strings.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\RPCToolkit-DB\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
