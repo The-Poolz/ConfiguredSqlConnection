@@ -12,14 +12,15 @@
     <Company>The Poolz</Company>
     <PackageProjectUrl>https://github.com/The-Poolz/ConfiguredSqlConnection</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryType>https://github.com/The-Poolz/ConfiguredSqlConnection</RepositoryType>
+    <RepositoryType></RepositoryType>
     <PackageTags>Database SQL EF</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>The NuGet package is a collection of utilities for working with SQL Server database connections using environment settings and secure connection strings.</Description>
+    <RepositoryUrl>https://github.com/The-Poolz/ConfiguredSqlConnection</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\RPCToolkit-DB\README.md">
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
