@@ -37,7 +37,7 @@ public class DbContextOptionsBuilderFactory<TContext> where TContext : DbContext
 
     protected virtual void ConfigureProdContext()
     {
-        var secretValue = EnvManager.GetEnvironmentValue<string>("SECRET_NAME_OF_CONNECTION", true);
+        var secretValue = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
 
         var connectionString = new SecretManager().GetSecretValue(secretValue, "connectionString");
 

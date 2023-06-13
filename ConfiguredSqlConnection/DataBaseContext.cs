@@ -11,14 +11,14 @@ public class DataBaseContext : DbContext, IAsyncDisposable, IDisposable
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var actionConnection = EnvManager.GetEnvironmentValue<string>("ACTION_CONNECTION");
+        var actionConnection = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_ACTION_CONNECTION");
         if (!string.IsNullOrEmpty(actionConnection))
         {
             optionsBuilder.UseSqlServer(actionConnection);
         }
         if (!optionsBuilder.IsConfigured)
         {
-            var secretValue = EnvManager.GetEnvironmentValue<string>("SECRET_NAME_OF_CONNECTION", true);
+            var secretValue = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
 
             var connectionString = new SecretManager().GetSecretValue(secretValue, "connectionString");
 
