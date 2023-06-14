@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace ConfiguredSqlConnection.Extensions;
 
-public class DbContextConnectionStringFactory
+public static class DbContextConnectionStringFactory
 {
-    public virtual string Create(ContextOption option, string? dbName = null) =>
+    public static string GetConnection(ContextOption option, string? dbName = null) =>
         option switch
         {
             ContextOption.Prod => GetProdConnection(),
@@ -16,14 +16,14 @@ public class DbContextConnectionStringFactory
             _ => throw new InvalidEnumArgumentException(nameof(option), (int)option, typeof(ContextOption)),
         };
 
-    protected virtual string GetProdConnection()
+    public static string GetProdConnection()
     {
         var secretValue = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
 
         return new SecretManager().GetSecretValue(secretValue, "connectionString");
     }
 
-    protected virtual string GetStagingConnection(string? dbName)
+    public static string GetStagingConnection(string? dbName)
     {
         if (string.IsNullOrWhiteSpace(dbName))
             throw new ArgumentNullException(nameof(dbName));
