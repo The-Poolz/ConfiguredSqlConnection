@@ -34,12 +34,12 @@ public class DbContextOptionsBuilderFactory<TContext> where TContext : DbContext
 
     protected virtual void ConfigureProdContext()
     {
-        optionsBuilder.UseSqlServer(ConnectionStringFactory.GetProdConnection());
+        optionsBuilder.UseSqlServer(ConnectionStringFactory.GetConnectionFromSecret());
     }
 
     protected virtual void ConfigureStagingContext(string? dbName)
     {
-        optionsBuilder.UseSqlServer(ConnectionStringFactory.GetStagingConnection(dbName));
+        optionsBuilder.UseSqlServer(ConnectionStringFactory.GetConnectionFromConfiguration(dbName));
     }
 
     protected virtual void ConfigureInMemoryContext(string? dbName)

@@ -11,19 +11,19 @@ public static class ConnectionStringFactory
     public static string GetConnection(ContextOption option, string? dbName = null) =>
         option switch
         {
-            ContextOption.Prod => GetProdConnection(),
-            ContextOption.Staging => GetStagingConnection(dbName),
+            ContextOption.Prod => GetConnectionFromSecret(),
+            ContextOption.Staging => GetConnectionFromConfiguration(dbName),
             _ => throw new InvalidEnumArgumentException(nameof(option), (int)option, typeof(ContextOption)),
         };
 
-    public static string GetProdConnection()
+    public static string GetConnectionFromSecret()
     {
         var secretValue = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
 
         return new SecretManager().GetSecretValue(secretValue, "connectionString");
     }
 
-    public static string GetStagingConnection(string? dbName)
+    public static string GetConnectionFromConfiguration(string? dbName)
     {
         if (string.IsNullOrWhiteSpace(dbName))
             throw new ArgumentNullException(nameof(dbName));
