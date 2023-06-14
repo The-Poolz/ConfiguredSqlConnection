@@ -1,23 +1,22 @@
-using ConfiguredSqlConnection;
-using ConfiguredSqlConnection.Extensions;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using System.Reflection;
 using Xunit;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using ConfiguredSqlConnection.Extensions;
 
 namespace ConfiguredSqlConnectionTests.ExtensionsTests;
 
 public class FactoriesTests
 {
     private readonly ContextOption contextOption;
-    private readonly DbContextOptionsBuilder<DataBaseContext> optionsBuilder;
-    private readonly DbContextOptionsBuilderFactory<DataBaseContext> optionsBuilderFactory;
+    private readonly DbContextOptionsBuilder<DbContext> optionsBuilder;
+    private readonly DbContextOptionsBuilderFactory<DbContext> optionsBuilderFactory;
 
     public FactoriesTests()
     {
         contextOption = ContextOption.Prod;
-        optionsBuilder = new DbContextOptionsBuilder<DataBaseContext>().UseInMemoryDatabase("dbName");
-        var mockOptionsBuilderFactory = new Mock<DbContextOptionsBuilderFactory<DataBaseContext>>();
+        optionsBuilder = new DbContextOptionsBuilder<DbContext>().UseInMemoryDatabase("dbName");
+        var mockOptionsBuilderFactory = new Mock<DbContextOptionsBuilderFactory<DbContext>>();
         mockOptionsBuilderFactory.Setup(x => x.Create(contextOption, null)).Returns(optionsBuilder);
         optionsBuilderFactory = mockOptionsBuilderFactory.Object;
     }
@@ -25,7 +24,7 @@ public class FactoriesTests
     [Fact]
     public void Create()
     {
-        var factory = new Mock<DbContextFactory>(optionsBuilderFactory);
+        var factory = new Mock<DbContextFactory<DbContext>>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
 
         var result = factory.Object.Create(contextOption);
@@ -38,7 +37,7 @@ public class FactoriesTests
     {
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"{contextOption}");
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", "");
-        var factory = new Mock<DbContextEnvironmentFactory>(optionsBuilderFactory);
+        var factory = new Mock<DbContextEnvironmentFactory<DbContext>>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 
@@ -53,7 +52,7 @@ public class FactoriesTests
         var expectedExceptionMessage = $"Environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE' is null or empty.";
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"");
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
-        var factory = new Mock<DbContextEnvironmentFactory>(optionsBuilderFactory);
+        var factory = new Mock<DbContextEnvironmentFactory<DbContext>>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 
@@ -69,7 +68,7 @@ public class FactoriesTests
         var expectedExceptionMessage = $"Invalid value for environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE': {invalidOption}";
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"{invalidOption}");
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
-        var factory = new Mock<DbContextEnvironmentFactory>(optionsBuilderFactory);
+        var factory = new Mock<DbContextEnvironmentFactory<DbContext>>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 

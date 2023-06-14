@@ -1,22 +1,24 @@
-﻿namespace ConfiguredSqlConnection.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class DbContextFactory
+namespace ConfiguredSqlConnection.Extensions;
+
+public class DbContextFactory<TContext> where TContext : DbContext
 {
-    private readonly DbContextOptionsBuilderFactory<DataBaseContext> optionsBuilderFactory;
+    private readonly DbContextOptionsBuilderFactory<TContext> optionsBuilderFactory;
 
     public DbContextFactory()
-        : this(new DbContextOptionsBuilderFactory<DataBaseContext>())
+        : this(new DbContextOptionsBuilderFactory<TContext>())
     { }
 
-    public DbContextFactory(DbContextOptionsBuilderFactory<DataBaseContext> optionsBuilderFactory)
+    public DbContextFactory(DbContextOptionsBuilderFactory<TContext> optionsBuilderFactory)
     {
         this.optionsBuilderFactory = optionsBuilderFactory;
     }
 
-    public virtual DataBaseContext Create(ContextOption option, string? dbName = null)
+    public virtual TContext Create(ContextOption option, string? dbName = null)
     {
         var optionsBuilder = optionsBuilderFactory.Create(option, dbName);
 
-        return new DataBaseContext(optionsBuilder.Options);
+        return (TContext)Activator.CreateInstance(typeof(TContext), optionsBuilder.Options)!;
     }
 }
