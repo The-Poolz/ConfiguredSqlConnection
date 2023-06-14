@@ -1,8 +1,5 @@
-﻿using EnvironmentManager;
+﻿using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using SecretsManager;
-using System.ComponentModel;
 
 namespace ConfiguredSqlConnection.Extensions;
 
@@ -37,21 +34,12 @@ public class DbContextOptionsBuilderFactory<TContext> where TContext : DbContext
 
     protected virtual void ConfigureProdContext()
     {
-        var secretValue = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
-
-        var connectionString = new SecretManager().GetSecretValue(secretValue, "connectionString");
-
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseSqlServer(DbContextConnectionStringFactory.GetProdConnection());
     }
 
     protected virtual void ConfigureStagingContext(string? dbName)
     {
-        var config = new ConfigurationBuilder()
-            .SetBasePath(Environment.CurrentDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        optionsBuilder.UseSqlServer(config.GetConnectionString(CheckDbName(dbName)));
+        optionsBuilder.UseSqlServer(DbContextConnectionStringFactory.GetStagingConnection(dbName));
     }
 
     protected virtual void ConfigureInMemoryContext(string? dbName)
