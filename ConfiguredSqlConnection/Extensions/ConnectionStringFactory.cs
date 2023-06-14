@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ConfiguredSqlConnection.Extensions;
 
-public static class DbContextConnectionStringFactory
+public static class ConnectionStringFactory
 {
     public static string GetConnection(ContextOption option, string? dbName = null) =>
         option switch
