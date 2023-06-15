@@ -65,15 +65,16 @@ public class FactoriesTests
     public void CreateFromEnvironment_InvaledOption_ThrowException()
     {
         var invalidOption = "Production";
-        var expectedExceptionMessage = $"Invalid value for environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE': {invalidOption}";
+        var expectedExceptionMessage = $"Failed to convert environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE' to type '{typeof(ContextOption).FullName}'.";
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"{invalidOption}");
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
         var factory = new Mock<DbContextEnvironmentFactory<DbContext>>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 
-        var exception = Assert.Throws<ArgumentException>(() => factory.Object.CreateFromEnvironment());
-  
-        Assert.Equal(expectedExceptionMessage, exception.Message);
+        var exception = Assert.Throws<TargetInvocationException>(() => factory.Object.CreateFromEnvironment());
+
+        Assert.NotNull(exception.InnerException);
+        Assert.Equal(expectedExceptionMessage, exception.InnerException.Message);
     }
 }
