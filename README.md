@@ -2,12 +2,14 @@
 
 The NuGet package is a collection of utilities for working with SQL Server database connections using environment settings and secure connection strings. It includes classes such as `EnvManager`, `ConnectionOptionsBuilder`, and `SecretManager` that facilitate retrieving and configuring connection parameters based on environment variables and secure secrets. This package aims to simplify the process of configuring and utilizing SQL Server connections in your application.
 
-# How to use
-Create a `DataBaseContext` instance based on the desired context option:
+## Creating a TContext using DbContextFactory&lt;TContext&gt;
+
+Create a `TContext` instance based on the desired context option:
 
 ```csharp
-var dbContext = new DbContextFactory().Create(ContextOption.Prod, dbName);
+var dbContext = new DbContextFactory<TContext>().Create(ContextOption.Prod, dbName);
 ```
+
 The following context options are available:
 ```csharp
 public enum ContextOption
@@ -26,21 +28,23 @@ public enum ContextOption
 
 - `dbName` parameter is optional and should be provided only for the *"Staging"* or *"InMemory"* options. It is not required for the *"Prod"* option.
 
-## Switch mode using environment variables
-If you want to switch modes using environment variables, you can use the `DbContextEnvironmentFactory` class. It is derived from the `DbContextFactory` and provides additional functionality to retrieve the mode and database name from environment variables.
+## Creating a TContext using DbContextEnvironmentFactory&lt;TContext&gt;
+
+If you want to switch modes using environment variables, you can use the `DbContextEnvironmentFactory<TContext>` class.
+It is derived from the `DbContextFactory<TContext>` and provides additional functionality to retrieve the mode and database name from environment variables.
 
 ```csharp
 var dbContext = new DbContextEnvironmentFactory().CreateFromEnvironment();
 ```
 The `CreateFromEnvironment()` method retrieves the mode and database name from the environment variables `CONFIGUREDSQLCONNECTION_DB_MODE` and `CONFIGUREDSQLCONNECTION_DB_NAME`, respectively. 
 
-## Environment variables
+### Environment variables
 - `CONFIGUREDSQLCONNECTION_DB_MODE`: environment variable should contain one of the following values: *"Prod"*, *"Staging"*, or *"InMemory"*, which determine the desired context option.
 - `CONFIGUREDSQLCONNECTION_DB_NAME`: environment variable can be used to specify the database name for the *"Staging"* or *"InMemory"* options.
 - `CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION`:  environment variable should contain the connection string for the *"Prod"* option.
 - `CONFIGUREDSQLCONNECTION_ACTION_CONNECTION`: environment variable should contain the connection string. This is required for GitHub Actions to obtain the database connection string, enabling it to execute the migrations. Ensure that your connection string is correctly formatted and points to the appropriate database, as all migrations will be applied there.
 
-## "appsettings.json" file
+### "appsettings.json" file
 Ensure that your `appsettings.json` file is located in the root folder of your project. This file should contain the necessary configuration settings, including the connection strings for different contexts.
 
 ```json
@@ -52,3 +56,33 @@ Ensure that your `appsettings.json` file is located in the root folder of your p
   }
 }
 ```
+
+## Creating a customized DbContextOptionsBuilder&lt;TContext&gt;
+
+This class is a factory for creating `DbContextOptionsBuilder<TContext>` instances based on the provided `ContextOption` and optional database name (`dbName`).
+
+```csharp
+var optionsBuilder = new DbContextOptionsBuilderFactory<TContext>().Create(ContextOption.YourOption, dbName)
+```
+
+## ConnectionStringFactory
+
+This static class provides methods to retrieve connection strings based on the provided `ContextOption` and optional `dbName`.
+
+```csharp
+var connectionString = ConnectionStringFactory.GetConnection(ContextOption.YourOption, dbName)
+```
+
+## ConnectionStringFromEnvironmentFactory
+
+This static class provides a method to retrieve a connection string from environment variables (`CONFIGUREDSQLCONNECTION_DB_MODE` and `CONFIGUREDSQLCONNECTION_DB_NAME`).
+
+```csharp
+var connectionString = ConnectionStringFactory.GetConnectionFromEnvironment()
+```
+
+## ConfigurerManager
+
+This static class provides a method to configure a `DbContextOptionsBuilder` instance in method `OnConfiguring` from `DbContext`.
+
+https://github.com/The-Poolz/ConfiguredSqlConnection/blob/b0780b2044677f3604aa63323c4e5aad33d028f1/ConfiguredSqlConnection/Extensions/ConfigurerManager.cs#L9-L25
