@@ -84,3 +84,5 @@ var connectionString = ConnectionStringFactory.GetConnectionFromEnvironment()
 ## ConfigurerManager
 
 This static class provides a method to configure a `DbContextOptionsBuilder` instance in method `OnConfiguring` from `DbContext`.
+
+https://github.com/The-Poolz/ConfiguredSqlConnection/blob/b0780b2044677f3604aa63323c4e5aad33d028f1/ConfiguredSqlConnection/Extensions/ConfigurerManager.cs#L9-L25
