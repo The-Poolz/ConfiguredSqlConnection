@@ -5,7 +5,7 @@ namespace ConfiguredSqlConnection.Extensions;
 
 public class DbContextEnvironmentFactory<TContext> : DbContextFactory<TContext> where TContext : DbContext
 {
-    private readonly string dbMode;
+    private readonly ContextOption dbMode;
     private readonly string dbName;
 
     public DbContextEnvironmentFactory()
@@ -15,17 +15,10 @@ public class DbContextEnvironmentFactory<TContext> : DbContextFactory<TContext> 
     public DbContextEnvironmentFactory(DbContextOptionsBuilderFactory<TContext> optionsBuilderFactory)
         : base(optionsBuilderFactory)
     {
-        dbMode = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_DB_MODE", true);
+        dbMode = EnvManager.GetEnvironmentValue<ContextOption>("CONFIGUREDSQLCONNECTION_DB_MODE", true);
         dbName = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_DB_NAME");
     }
 
-    public virtual TContext CreateFromEnvironment()
-    {
-        if (!Enum.TryParse(typeof(ContextOption), dbMode, true, out var optionObj) || optionObj is not ContextOption option)
-        {
-            throw new ArgumentException($"Invalid value for environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE': {dbMode}");
-        }
-
-        return Create(option, dbName);
-    }
+    public virtual TContext CreateFromEnvironment() =>
+        Create(dbMode, dbName);
 }
