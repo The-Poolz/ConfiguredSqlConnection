@@ -14,6 +14,7 @@ public static class ConfigurerManager
             if (!string.IsNullOrEmpty(actionConnection))
             {
                 optionsBuilder.UseSqlServer(actionConnection);
+                return;
             }
 
             var secretValue = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
