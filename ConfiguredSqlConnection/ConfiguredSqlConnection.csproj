@@ -17,7 +17,7 @@
     <Description>The NuGet package is a collection of utilities for working with SQL Server database connections using environment settings and secure connection strings.</Description>
     <RepositoryUrl>https://github.com/The-Poolz/ConfiguredSqlConnection</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageReleaseNotes>- bugfix in </PackageReleaseNotes>
+    <PackageReleaseNotes>- bugfix in ConfigurerManager.OnConfiguring(). Add 'return' if action connection set</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
