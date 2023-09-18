@@ -81,8 +81,22 @@ This static class provides a method to retrieve a connection string from environ
 var connectionString = ConnectionStringFactory.GetConnectionFromEnvironment()
 ```
 
-## ConfigurerManager
+## DbContextOptionsBuilderExtensions
 
-This static class provides a method to configure a `DbContextOptionsBuilder` instance in method `OnConfiguring` from `DbContext`.
+This static class provides an extensions methods to configure a `DbContextOptionsBuilder` instance in method `OnConfiguring` from `DbContext`.
+Each these method do nothing if `DbContextOptionsBuilder` already be configured.
 
-https://github.com/The-Poolz/ConfiguredSqlConnection/blob/b0780b2044677f3604aa63323c4e5aad33d028f1/ConfiguredSqlConnection/Extensions/ConfigurerManager.cs#L9-L25
+```csharp
+// Try to configure action connection.
+optionsBuilder
+    .ConfigureFromActionConnection();
+
+// Try to configure db connection via SecretManager.
+optionsBuilder
+    .ConfigureFromSecretConnection();
+
+// Try to configure action connection also try to configure db connection via SecretManager.
+optionsBuilder
+    .ConfigureFromActionConnection()
+    .ConfigureFromSecretConnection();
+```
