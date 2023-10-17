@@ -37,7 +37,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="SecretsManager" Version="1.0.0" />
     <PackageReference Include="TestableDbContext.Mock" Version="1.0.0" />
-    <PackageReference Include="Utils.EnvironmentManager" Version="1.1.0" />
+    <PackageReference Include="Utils.EnvironmentManager" Version="2.0.1" />
   </ItemGroup>
 
 </Project>
