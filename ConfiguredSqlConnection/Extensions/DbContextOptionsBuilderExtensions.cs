@@ -6,11 +6,13 @@ namespace ConfiguredSqlConnection.Extensions;
 
 public static class DbContextOptionsBuilderExtensions
 {
+    private static readonly EnvManager envManager = new();
+
     public static DbContextOptionsBuilder ConfigureFromActionConnection(this DbContextOptionsBuilder optionsBuilder)
     {
         if (optionsBuilder.IsConfigured) return optionsBuilder;
 
-        var connectionString = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_ACTION_CONNECTION");
+        var connectionString = envManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_ACTION_CONNECTION");
         if (!string.IsNullOrEmpty(connectionString))
         {
             optionsBuilder.UseSqlServer(connectionString);
@@ -23,7 +25,7 @@ public static class DbContextOptionsBuilderExtensions
     {
         if (optionsBuilder.IsConfigured) return optionsBuilder;
 
-        var secretValue = EnvManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
+        var secretValue = envManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
         var connectionString = new SecretManager().GetSecretValue(secretValue, "connectionString");
         if (!string.IsNullOrEmpty(connectionString))
         {
