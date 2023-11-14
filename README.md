@@ -99,4 +99,10 @@ optionsBuilder
 optionsBuilder
     .ConfigureFromActionConnection()
     .ConfigureFromSecretConnection();
+
+// Try to configure action connection, with migration assembly
+// also try to configure db connection via SecretManager with migration assembly.
+optionsBuilder
+    .ConfigureFromActionConnection("MyProject.Migrations")
+    .ConfigureFromSecretConnection("MyProject.Migrations");
 ```
