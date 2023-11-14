@@ -99,4 +99,9 @@ optionsBuilder
 optionsBuilder
     .ConfigureFromActionConnection()
     .ConfigureFromSecretConnection();
+
+// Try to configure action connection also try to configure db connection via SecretManager.
+optionsBuilder
+    .ConfigureFromActionConnection()
+    .ConfigureFromSecretConnection();
 ```
