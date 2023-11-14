@@ -1,7 +1,7 @@
 ﻿using SecretsManager;
 using EnvironmentManager;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ConfiguredSqlConnection.Extensions;
 
@@ -15,14 +15,7 @@ public static class DbContextOptionsBuilderExtensions
         var connectionString = envManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_ACTION_CONNECTION");
         if (string.IsNullOrEmpty(connectionString)) return optionsBuilder;
 
-        if (string.IsNullOrWhiteSpace(migrationsAssembly))
-        {
-            optionsBuilder.UseSqlServer(connectionString);
-        }
-        else
-        {
-            optionsBuilder.UseSqlServer(connectionString, options => options.MigrationsAssembly(migrationsAssembly));
-        }
+        optionsBuilder.UseSqlServer(connectionString, ConfigureSqlServerOptionsAction(migrationsAssembly));
 
         return optionsBuilder;
     }
@@ -34,15 +27,13 @@ public static class DbContextOptionsBuilderExtensions
         var connectionString = new SecretManager().GetSecretValue(secretValue, "connectionString");
         if (string.IsNullOrEmpty(connectionString)) return optionsBuilder;
 
-        if (string.IsNullOrWhiteSpace(migrationsAssembly))
-        {
-            optionsBuilder.UseSqlServer(connectionString);
-        }
-        else
-        {
-            optionsBuilder.UseSqlServer(connectionString, options => options.MigrationsAssembly(migrationsAssembly));
-        }
+        optionsBuilder.UseSqlServer(connectionString, ConfigureSqlServerOptionsAction(migrationsAssembly));
 
         return optionsBuilder;
     }
+
+    private static Action<SqlServerDbContextOptionsBuilder>? ConfigureSqlServerOptionsAction(string? migrationsAssembly = null) =>
+        !string.IsNullOrWhiteSpace(migrationsAssembly)
+            ? options => options.MigrationsAssembly(migrationsAssembly)
+            : null;
 }
