@@ -49,7 +49,7 @@ public class FactoriesTests
     [Fact]
     public void CreateFromEnvironment_OptionNotSet_ThrowException()
     {
-        var expectedExceptionMessage = $"Environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE' is null or empty.";
+        var expectedExceptionMessage = "Environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE' is null or empty. (Parameter 'envValue')";
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"");
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
         var factory = new Mock<DbContextEnvironmentFactory<DbContext>>(optionsBuilderFactory);

@@ -1,4 +1,4 @@
-﻿using EnvironmentManager;
+﻿using EnvironmentManager.Static;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConfiguredSqlConnection.Extensions;
@@ -15,9 +15,8 @@ public class DbContextEnvironmentFactory<TContext> : DbContextFactory<TContext> 
     public DbContextEnvironmentFactory(DbContextOptionsBuilderFactory<TContext> optionsBuilderFactory)
         : base(optionsBuilderFactory)
     {
-        var envManager = new EnvManager();
-        dbMode = envManager.GetEnvironmentValue<ContextOption>("CONFIGUREDSQLCONNECTION_DB_MODE", true);
-        dbName = envManager.GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_DB_NAME");
+        dbMode = EnvManager.Get<ContextOption>("CONFIGUREDSQLCONNECTION_DB_MODE", true);
+        dbName = EnvManager.Get<string>("CONFIGUREDSQLCONNECTION_DB_NAME");
     }
 
     public virtual TContext CreateFromEnvironment() =>

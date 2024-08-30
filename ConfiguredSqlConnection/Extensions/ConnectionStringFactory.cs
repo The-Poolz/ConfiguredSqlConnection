@@ -1,6 +1,6 @@
 ﻿using SecretsManager;
-using EnvironmentManager;
 using System.ComponentModel;
+using EnvironmentManager.Static;
 using Microsoft.Extensions.Configuration;
 
 namespace ConfiguredSqlConnection.Extensions;
@@ -17,7 +17,7 @@ public static class ConnectionStringFactory
 
     public static string GetConnectionFromSecret()
     {
-        var secretValue = new EnvManager().GetEnvironmentValue<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
+        var secretValue = EnvManager.Get<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
 
         return new SecretManager().GetSecretValue(secretValue, "connectionString");
     }
