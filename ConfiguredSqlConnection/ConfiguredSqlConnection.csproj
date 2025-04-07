@@ -7,7 +7,7 @@
     <UserSecretsId>5405e2de-7a05-4014-aea5-3ee845eb7fee</UserSecretsId>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>ConfiguredSqlConnection</Title>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>Senia,ArdenHide,Lomet</Authors>
     <Company>The-Poolz</Company>
     <PackageProjectUrl>https://www.nuget.org/packages/ConfiguredSqlConnection</PackageProjectUrl>
@@ -17,7 +17,7 @@
     <Description>The NuGet package is a collection of utilities for working with SQL Server database connections using environment settings and secure connection strings.</Description>
     <RepositoryUrl>https://github.com/The-Poolz/ConfiguredSqlConnection</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageReleaseNotes>https://github.com/The-Poolz/ConfiguredSqlConnection/releases/tag/v1.2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/The-Poolz/ConfiguredSqlConnection/releases/tag/v1.2.1</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
