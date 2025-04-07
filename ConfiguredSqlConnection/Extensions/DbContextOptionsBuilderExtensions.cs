@@ -7,10 +7,14 @@ namespace ConfiguredSqlConnection.Extensions;
 
 public static class DbContextOptionsBuilderExtensions
 {
-    public static DbContextOptionsBuilder ConfigureFromActionConnection(this DbContextOptionsBuilder optionsBuilder, string? migrationsAssembly = null)
+    public static DbContextOptionsBuilder ConfigureFromActionConnection(
+        this DbContextOptionsBuilder optionsBuilder,
+        string? migrationsAssembly = null,
+        string envVarName = "CONFIGUREDSQLCONNECTION_ACTION_CONNECTION"
+    )
     {
         if (optionsBuilder.IsConfigured) return optionsBuilder;
-        var connectionString = EnvManager.Get<string>("CONFIGUREDSQLCONNECTION_ACTION_CONNECTION");
+        var connectionString = EnvManager.Get<string>(envVarName);
         if (string.IsNullOrEmpty(connectionString)) return optionsBuilder;
 
         optionsBuilder.UseSqlServer(connectionString, ConfigureSqlServerOptionsAction(migrationsAssembly));
@@ -18,10 +22,14 @@ public static class DbContextOptionsBuilderExtensions
         return optionsBuilder;
     }
 
-    public static DbContextOptionsBuilder ConfigureFromSecretConnection(this DbContextOptionsBuilder optionsBuilder, string? migrationsAssembly = null)
+    public static DbContextOptionsBuilder ConfigureFromSecretConnection(
+        this DbContextOptionsBuilder optionsBuilder,
+        string? migrationsAssembly = null,
+        string envVarName = "CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION"
+    )
     {
         if (optionsBuilder.IsConfigured) return optionsBuilder;
-        var secretValue = EnvManager.Get<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
+        var secretValue = EnvManager.GetRequired<string>(envVarName);
         var connectionString = new SecretManager().GetSecretValue(secretValue, "connectionString");
         if (string.IsNullOrEmpty(connectionString)) return optionsBuilder;
 
