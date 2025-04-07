@@ -7,17 +7,17 @@ namespace ConfiguredSqlConnection.Extensions;
 
 public static class ConnectionStringFactory
 {
-    public static string GetConnection(ContextOption option, string? dbName = null) =>
+    public static string GetConnection(ContextOption option, string? dbName = null, string envVarName = "CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION") =>
         option switch
         {
-            ContextOption.Prod => GetConnectionFromSecret(),
+            ContextOption.Prod => GetConnectionFromSecret(envVarName),
             ContextOption.Staging => GetConnectionFromConfiguration(dbName),
             _ => throw new InvalidEnumArgumentException(nameof(option), (int)option, typeof(ContextOption)),
         };
 
-    public static string GetConnectionFromSecret()
+    public static string GetConnectionFromSecret(string envVarName = "CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION")
     {
-        var secretValue = EnvManager.Get<string>("CONFIGUREDSQLCONNECTION_SECRET_NAME_OF_CONNECTION", true);
+        var secretValue = EnvManager.GetRequired(envVarName);
 
         return new SecretManager().GetSecretValue(secretValue, "connectionString");
     }
