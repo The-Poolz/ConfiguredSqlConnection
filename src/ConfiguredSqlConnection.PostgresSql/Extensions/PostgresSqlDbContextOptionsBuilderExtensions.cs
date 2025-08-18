@@ -1,11 +1,11 @@
 ﻿using SecretsManager;
 using EnvironmentManager.Static;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
-namespace ConfiguredSqlConnection.Extensions;
+namespace ConfiguredSqlConnection.PostgresSql.Extensions;
 
-public static class DbContextOptionsBuilderExtensions
+public static class PostgresSqlDbContextOptionsBuilderExtensions
 {
     public static DbContextOptionsBuilder ConfigureFromActionConnection(
         this DbContextOptionsBuilder optionsBuilder,
@@ -17,7 +17,7 @@ public static class DbContextOptionsBuilderExtensions
         var connectionString = EnvManager.Get<string>(envVarName);
         if (string.IsNullOrEmpty(connectionString)) return optionsBuilder;
 
-        optionsBuilder.UseSqlServer(connectionString, ConfigureSqlServerOptionsAction(migrationsAssembly));
+        optionsBuilder.UseNpgsql(connectionString, ConfigureNpgsqlOptionsAction(migrationsAssembly));
 
         return optionsBuilder;
     }
@@ -33,12 +33,12 @@ public static class DbContextOptionsBuilderExtensions
         var connectionString = new SecretManager().GetSecretValue(secretValue, "connectionString");
         if (string.IsNullOrEmpty(connectionString)) return optionsBuilder;
 
-        optionsBuilder.UseSqlServer(connectionString, ConfigureSqlServerOptionsAction(migrationsAssembly));
+        optionsBuilder.UseNpgsql(connectionString, ConfigureNpgsqlOptionsAction(migrationsAssembly));
 
         return optionsBuilder;
     }
 
-    private static Action<SqlServerDbContextOptionsBuilder>? ConfigureSqlServerOptionsAction(string? migrationsAssembly = null) =>
+    private static Action<NpgsqlDbContextOptionsBuilder>? ConfigureNpgsqlOptionsAction(string? migrationsAssembly = null) =>
         !string.IsNullOrWhiteSpace(migrationsAssembly)
             ? options => options.MigrationsAssembly(migrationsAssembly)
             : null;

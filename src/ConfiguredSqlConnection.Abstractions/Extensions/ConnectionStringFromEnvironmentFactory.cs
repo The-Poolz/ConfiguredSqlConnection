@@ -1,6 +1,6 @@
 ﻿using EnvironmentManager.Static;
 
-namespace ConfiguredSqlConnection.Extensions;
+namespace ConfiguredSqlConnection.Abstractions.Extensions;
 
 public static class ConnectionStringFromEnvironmentFactory
 {

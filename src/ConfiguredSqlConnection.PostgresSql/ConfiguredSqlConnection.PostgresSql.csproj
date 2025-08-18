@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<Title>ConfiguredSqlConnection.PostgresSql</Title>
+	<PackageTags>Database SQL EF PostgreSQL</PackageTags>
+	<Description>PostgreSQL provider for ConfiguredSqlConnection.Abstractions.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfiguredSqlConnection.Abstractions\ConfiguredSqlConnection.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

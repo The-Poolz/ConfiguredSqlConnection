@@ -3,7 +3,7 @@ using System.ComponentModel;
 using EnvironmentManager.Static;
 using Microsoft.Extensions.Configuration;
 
-namespace ConfiguredSqlConnection.Extensions;
+namespace ConfiguredSqlConnection.Abstractions.Extensions;
 
 public static class ConnectionStringFactory
 {

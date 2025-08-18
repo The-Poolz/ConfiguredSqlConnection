@@ -1,4 +1,4 @@
-﻿namespace ConfiguredSqlConnection.Extensions;
+﻿namespace ConfiguredSqlConnection.Abstractions.Extensions;
 
 public enum ContextOption
 {

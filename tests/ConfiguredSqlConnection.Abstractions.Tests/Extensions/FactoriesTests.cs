@@ -2,20 +2,19 @@ using Moq;
 using Xunit;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using ConfiguredSqlConnection.Extensions;
+using ConfiguredSqlConnection.Abstractions.Extensions;
 
-namespace ConfiguredSqlConnectionTests.ExtensionsTests;
+namespace ConfiguredSqlConnection.Abstractions.Tests.Extensions;
 
 public class FactoriesTests
 {
     private readonly ContextOption contextOption;
-    private readonly DbContextOptionsBuilder<DbContext> optionsBuilder;
     private readonly DbContextOptionsBuilderFactory<DbContext> optionsBuilderFactory;
 
     public FactoriesTests()
     {
         contextOption = ContextOption.Prod;
-        optionsBuilder = new DbContextOptionsBuilder<DbContext>().UseInMemoryDatabase("dbName");
+        var optionsBuilder = new DbContextOptionsBuilder<DbContext>().UseInMemoryDatabase("dbName");
         var mockOptionsBuilderFactory = new Mock<DbContextOptionsBuilderFactory<DbContext>>();
         mockOptionsBuilderFactory.Setup(x => x.Create(contextOption, null)).Returns(optionsBuilder);
         optionsBuilderFactory = mockOptionsBuilderFactory.Object;
@@ -58,7 +57,7 @@ public class FactoriesTests
 
         var exception = Assert.Throws<TargetInvocationException>(() => factory.Object.CreateFromEnvironment());
 
-        Assert.Equal(expectedExceptionMessage, exception?.InnerException?.Message);
+        Assert.Equal(expectedExceptionMessage, exception.InnerException?.Message);
     }
 
     [Fact]
