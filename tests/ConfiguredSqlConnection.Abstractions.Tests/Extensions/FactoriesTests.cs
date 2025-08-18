@@ -1,6 +1,5 @@
 using Moq;
 using Xunit;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using ConfiguredSqlConnection.Abstractions.Extensions;
 
@@ -55,9 +54,9 @@ public class FactoriesTests
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 
-        var exception = Assert.Throws<TargetInvocationException>(() => factory.Object.CreateFromEnvironment());
+        var exception = Assert.Throws<ArgumentNullException>(factory.Object.CreateFromEnvironment);
 
-        Assert.Equal(expectedExceptionMessage, exception.InnerException?.Message);
+        Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 
     [Fact]
@@ -66,14 +65,13 @@ public class FactoriesTests
         var invalidOption = "Production";
         var expectedExceptionMessage = $"Failed to convert environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE' to type '{typeof(ContextOption).FullName}'.";
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"{invalidOption}");
-        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", "");
         var factory = new Mock<DbContextEnvironmentFactory<DbContext>>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 
-        var exception = Assert.Throws<TargetInvocationException>(() => factory.Object.CreateFromEnvironment());
+        var exception = Assert.Throws<InvalidCastException>(factory.Object.CreateFromEnvironment);
 
-        Assert.NotNull(exception.InnerException);
-        Assert.Equal(expectedExceptionMessage, exception.InnerException.Message);
+        Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 }

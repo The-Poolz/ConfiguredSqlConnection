@@ -9,9 +9,8 @@ public class DbContextEnvironmentFactory<TContext>(DbContextOptionsBuilderFactor
 {
     public virtual TContext CreateFromEnvironment()
     {
-        var dbMode = EnvManager.Get<ContextOption>("CONFIGUREDSQLCONNECTION_DB_MODE", true);
+        var dbMode = EnvManager.GetRequired<ContextOption>("CONFIGUREDSQLCONNECTION_DB_MODE");
         var dbName = EnvManager.Get<string>("CONFIGUREDSQLCONNECTION_DB_NAME");
-
         return Create(dbMode, dbName);
     }
 }
