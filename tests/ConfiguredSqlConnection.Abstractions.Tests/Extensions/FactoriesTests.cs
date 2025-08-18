@@ -1,6 +1,6 @@
 using Moq;
 using Xunit;
-using System.Reflection;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using ConfiguredSqlConnection.Abstractions.Extensions;
 
@@ -28,7 +28,7 @@ public class FactoriesTests
 
         var result = factory.Object.Create(contextOption);
 
-        Assert.NotNull(result);
+        result.Should().NotBeNull();
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class FactoriesTests
 
         var result = factory.Object.CreateFromEnvironment();
 
-        Assert.NotNull(result);
+        result.Should().NotBeNull();
     }
 
     [Fact]
@@ -55,9 +55,10 @@ public class FactoriesTests
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 
-        var exception = Assert.Throws<TargetInvocationException>(() => factory.Object.CreateFromEnvironment());
+        var act = factory.Object.CreateFromEnvironment;
 
-        Assert.Equal(expectedExceptionMessage, exception.InnerException?.Message);
+        act.Should().Throw<ArgumentNullException>()
+            .WithMessage(expectedExceptionMessage);
     }
 
     [Fact]
@@ -66,14 +67,14 @@ public class FactoriesTests
         var invalidOption = "Production";
         var expectedExceptionMessage = $"Failed to convert environment variable 'CONFIGUREDSQLCONNECTION_DB_MODE' to type '{typeof(ContextOption).FullName}'.";
         Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_MODE", $"{invalidOption}");
-        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", $"");
+        Environment.SetEnvironmentVariable("CONFIGUREDSQLCONNECTION_DB_NAME", "");
         var factory = new Mock<DbContextEnvironmentFactory<DbContext>>(optionsBuilderFactory);
         factory.Setup(x => x.Create(contextOption, null)).CallBase();
         factory.Setup(x => x.CreateFromEnvironment()).CallBase();
 
-        var exception = Assert.Throws<TargetInvocationException>(() => factory.Object.CreateFromEnvironment());
+        var act = factory.Object.CreateFromEnvironment;
 
-        Assert.NotNull(exception.InnerException);
-        Assert.Equal(expectedExceptionMessage, exception.InnerException.Message);
+        act.Should().Throw<InvalidCastException>()
+            .WithMessage(expectedExceptionMessage);
     }
 }
