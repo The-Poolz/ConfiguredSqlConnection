@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ConfiguredSqlConnection\ConfiguredSqlConnection.csproj" />
+    <ProjectReference Include="..\ConfiguredSqlConnection.Abstractions\ConfiguredSqlConnection.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

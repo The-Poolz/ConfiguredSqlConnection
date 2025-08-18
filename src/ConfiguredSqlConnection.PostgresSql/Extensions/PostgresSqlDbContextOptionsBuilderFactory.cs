@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ConfiguredSqlConnection.Extensions;
+using ConfiguredSqlConnection.Abstractions.Extensions;
 
 namespace ConfiguredSqlConnection.PostgresSql.Extensions;
 
