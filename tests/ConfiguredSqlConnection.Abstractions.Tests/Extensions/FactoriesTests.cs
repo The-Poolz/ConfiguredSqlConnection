@@ -75,6 +75,6 @@ public class FactoriesTests
         var act = factory.Object.CreateFromEnvironment;
 
         act.Should().Throw<InvalidCastException>()
-            .WithMessage($"*{expectedExceptionMessage}*");
+            .WithMessage(expectedExceptionMessage);
     }
 }
