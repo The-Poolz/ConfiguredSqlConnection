@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<Title>ConfiguredSqlConnection.SqlServer</Title>
+	<PackageTags>Database SQL EF SqlServer</PackageTags>
+	<Description>SQL Server provider for ConfiguredSqlConnection.Abstractions.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14" />
   </ItemGroup>
 
   <ItemGroup>
