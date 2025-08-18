@@ -1,24 +1,25 @@
 ﻿using Xunit;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using ConfiguredSqlConnection.PostgresSql.Extensions;
+using ConfiguredSqlConnection.SqlServer.Extensions;
+namespace ConfiguredSqlConnection.SqlServer.Tests.Extensions;
 
-namespace ConfiguredSqlConnection.PostgresSql.Tests.Extensions;
-
-public class PostgresSqlDbContextOptionsBuilderExtensionsTests
+public class SqlServerDbContextOptionsBuilderExtensionsTests
 {
+    private class TestDbContext(DbContextOptions options) : DbContext(options);
+
     [Fact]
     public void ConfigureFromActionConnection_WithEnvVar_ConfiguresProvider()
     {
         var envVarName = "CONFIGUREDSQLCONNECTION_ACTION_CONNECTION";
-        var connectionString = "Host=localhost;Database=db;Username=user;Password=pass";
+        var connectionString = @"Server=(localdb)\\mssqllocaldb;Database=ActionDb;Trusted_Connection=True";
         Environment.SetEnvironmentVariable(envVarName, connectionString);
 
         var builder = new DbContextOptionsBuilder<TestDbContext>();
         builder.ConfigureFromActionConnection(envVarName: envVarName);
 
         using var context = new TestDbContext(builder.Options);
-        context.Database.ProviderName.Should().Be("Npgsql.EntityFrameworkCore.PostgreSQL");
+        context.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.SqlServer");
 
         Environment.SetEnvironmentVariable(envVarName, null);
     }
