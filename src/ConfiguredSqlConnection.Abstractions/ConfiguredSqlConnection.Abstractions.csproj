@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>ConfiguredSqlConnection.Abstractions</Title>
     <PackageTags>Database SQL EF</PackageTags>
-    <Description>The NuGet package is a collection of utilities for working with SQL Server database connections using environment settings and secure connection strings.</Description>
+    <Description>Abstractions for configuring database connections using environment settings and secure connection strings.</Description>
   </PropertyGroup>
 
   <ItemGroup>
