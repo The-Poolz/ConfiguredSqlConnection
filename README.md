@@ -1,6 +1,22 @@
 # ConfiguredSqlConnection
 
-The NuGet package is a collection of utilities for working with SQL Server database connections using environment settings and secure connection strings. It includes classes such as `EnvManager`, `ConnectionOptionsBuilder`, and `SecretManager` that facilitate retrieving and configuring connection parameters based on environment variables and secure secrets. This package aims to simplify the process of configuring and utilizing SQL Server connections in your application.
+ConfiguredSqlConnection is a set of helpers for configuring Entity Framework Core
+database connections using environment settings, secure secrets and application
+configuration. The repository is split into several NuGet packages:
+
+- `ConfiguredSqlConnection.Abstractions` – core factories and extensions.
+- `ConfiguredSqlConnection.SqlServer` – utilities for Microsoft SQL Server.
+- `ConfiguredSqlConnection.PostgresSql` – utilities for PostgreSQL.
+
+Install the package that matches your provider:
+
+```bash
+dotnet add package ConfiguredSqlConnection.SqlServer
+dotnet add package ConfiguredSqlConnection.PostgresSql
+```
+
+These libraries simplify retrieving and configuring connection parameters based
+on environment variables or secure secrets.
 
 ## Creating a TContext using DbContextFactory&lt;TContext&gt;
 
